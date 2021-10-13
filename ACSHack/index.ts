@@ -5,6 +5,8 @@ import ReactDOM = require("react-dom");
 
 export class ACSHack implements ComponentFramework.StandardControl<IInputs, IOutputs> {
 
+	private _container:HTMLDivElement;
+
 	/**
 	 * Empty constructor.
 	 */
@@ -23,22 +25,8 @@ export class ACSHack implements ComponentFramework.StandardControl<IInputs, IOut
 	 */
 	public init(context: ComponentFramework.Context<IInputs>, notifyOutputChanged: () => void, state: ComponentFramework.Dictionary, container:HTMLDivElement): void
 	{
-		const props = {
-			token: String(context.parameters.token.raw),
-			userId: String(context.parameters.userId.raw),
-			displayName: String(context.parameters.displayName.raw),
-			threadId: String(context.parameters.threadId.raw),
-			endpointURL: String(context.parameters.endpoint.raw)
-		}
-		try{
-			ReactDOM.render(
-				React.createElement(Composite, props), container
-			)
-		}
-		catch(err){
-			console.log(err)
-		}
-
+		context.mode.trackContainerResize(true);
+		this._container = container;
 	}
 
 	/**
@@ -47,7 +35,22 @@ export class ACSHack implements ComponentFramework.StandardControl<IInputs, IOut
 	 */
 	public updateView(context: ComponentFramework.Context<IInputs>): void
 	{
-		
+		const props = {
+			token: String(context.parameters.token.raw),
+			userId: String(context.parameters.userId.raw),
+			displayName: String(context.parameters.displayName.raw),
+			threadId: String(context.parameters.threadId.raw),
+			endpointURL: String(context.parameters.endpoint.raw),
+			height: String(context.mode.allocatedHeight)
+		}
+		try{
+			ReactDOM.render(
+				React.createElement(Composite, props), this._container
+			)
+		}
+		catch(err){
+			console.log("error: " + err)
+		}
 	}
 
 	/**

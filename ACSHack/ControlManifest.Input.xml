@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <manifest>
-  <control namespace="Azure" constructor="ACSHack" version="0.0.3" display-name-key="ACSHack" description-key="ACSHack description" control-type="standard" >
+  <control namespace="Azure" constructor="ACSHack" version="0.0.7" display-name-key="ACSHack" description-key="ACSHack description" control-type="standard" >
     <!--external-service-usage node declares whether this 3rd party PCF control is using external service or not, if yes, this control will be considered as premium and please also add the external domain it is using.
     If it is not using any external service, please set the enabled="false" and DO NOT add any domain below. The "enabled" will be false by default.
     Example1:
@@ -23,35 +23,35 @@
     of-type="SingleLine.Text" 
     usage="input" 
     required="true"
-    default-value="" />
+    default-value="val" />
 
     <property name="userId" 
     display-name-key="userId" 
     of-type="SingleLine.Text" 
     usage="input" 
     required="true"
-    default-value="" />
+    default-value="val" />
     
     <property name="token" 
     display-name-key="token" 
     of-type="SingleLine.Text" 
     usage="input" 
     required="true" 
-    default-value="" />
+    default-value="val" />
 
     <property name="threadId" 
     display-name-key="threadId" 
     of-type="SingleLine.Text" 
     usage="input" 
     required="true"
-    default-value="" />
+    default-value="val" />
 
     <property name="endpoint" 
     display-name-key="endpoint" 
     of-type="SingleLine.Text" 
     usage="input" 
     required="true"
-    default-value="" />
+    default-value="val" />
 
     <resources>
       <code path="index.ts" order="1"/>

@@ -16,6 +16,7 @@ export interface CompositeProps {
   displayName: string;
   threadId: string;
   endpointURL: string;
+  height: string;
 }
 
 function Composite(props: CompositeProps): JSX.Element {
@@ -35,6 +36,7 @@ function Composite(props: CompositeProps): JSX.Element {
 
   useEffect(() => {
     const createAdapter = async (): Promise<void> => {
+      console.log("threadId: " + props.threadId);
       setChatAdapter(
         await createAzureCommunicationChatAdapter({
           endpointUrl: props.endpointURL,
@@ -45,23 +47,29 @@ function Composite(props: CompositeProps): JSX.Element {
         })
       );
     };
-    if( credential != undefined) createAdapter();
+    if( credential != undefined && props.threadId != "") createAdapter();
   }, [credential]);
 
+  
+  if (credential === undefined) {
+    return <h3>Failed to construct credential. Provided token is malformed.</h3>;
+  }
+  if (props.threadId === "") {
+    return <h3>Provide a valid thread id</h3>;
+  }
   if (!!chatAdapter) {
     return (
       <>
-      <div style={{height: '100%'}}>
-        <ChatComposite adapter={chatAdapter} options={{
+      <div style={{height: props.height + 'px'}}>
+        <ChatComposite 
+        adapter={chatAdapter} 
+        options={{
           participantPane: false,
           topic: false
         }} />
       </div>
       </>
     );
-  }
-  if (credential === undefined) {
-    return <h3>Failed to construct credential. Provided token is malformed.</h3>;
   }
   return <h3>Initializing...</h3>;
 }
