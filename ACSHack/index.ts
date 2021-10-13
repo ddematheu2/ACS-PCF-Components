@@ -1,20 +1,9 @@
 import {IInputs, IOutputs} from "./generated/ManifestTypes";
+import Composite from "./Composite";
+import React = require("react");
+import * as ReactDOM from "react-dom";
 
 export class ACSHack implements ComponentFramework.StandardControl<IInputs, IOutputs> {
-
-	private label: HTMLInputElement;
-	private src: HTMLScriptElement;
-	private composite: HTMLScriptElement;
-	private callContainer: HTMLDivElement;
-
-	private token = "'eyJhbGciOiJSUzI1NiIsImtpZCI6IjEwMyIsIng1dCI6Ikc5WVVVTFMwdlpLQTJUNjFGM1dzYWdCdmFMbyIsInR5cCI6IkpXVCJ9.eyJza3lwZWlkIjoiYWNzOjU3ZjAxZTQzLTMxOGUtNDY2MS1hZTBlLWI2NzY1ZDY1ODAxYV8wMDAwMDAwZC0xNjc0LTk1MWItNjJmZi0yMzQ4MjIwMDExNjgiLCJzY3AiOjE3OTIsImNzaSI6IjE2MzQwNzY5MTQiLCJleHAiOjE2MzQxNjMzMTQsImFjc1Njb3BlIjoidm9pcCxjaGF0IiwicmVzb3VyY2VJZCI6IjU3ZjAxZTQzLTMxOGUtNDY2MS1hZTBlLWI2NzY1ZDY1ODAxYSIsImlhdCI6MTYzNDA3NjkxNH0.D-THuHQ_A7eFzlyoOw7p7worlrr2i_zbKkTWA6tPPXVnkVqDsWQFYfTMDI68GqpeaKMdac3h2XtokuhOj9S-uJuGFn5Hw8BOcNif6wk6QE8uBs_bSD97qGWFWU-k6bREXAO4U5R8HxWujzTds85NCA02WPuqaqagHqZcYCZRIZGvunnXpEMgdWt5c7pNoH10wTtgLMUEZYMRmpcBnacELWYuXDJBFCITmAFGjGTdchfH-3SVkKcQem4jvyszzGUw7gMOGz-MN9R24ea76jC4cyElUpaxTTOOIUHjo39ZcfPLwiBEN7uzepjpHgT1LIN12QXnc_PLDmEn4IY_LCjLGg'";
-	private userId = "'8:acs:57f01e43-318e-4661-ae0e-b6765d65801a_0000000d-1674-951b-62ff-234822001168'";
-	private displayName = "'David'";
-	private GUID = "'edba7d6f-5f37-4fba-89d2-ae18720a1ae9'";
-	private threadId = "'19:wwSg2V4JsD1MNn4U6jt6Tc2jPTvpuiWb0gjilcwmk481@thread.v2'";
-	private endpointUrl = "'https://acs-test-resource.communication.azure.com/'";
-	private code = "const callAdapter = await callComposite.loadCallComposite({groupId: " + this.GUID + ", displayName:" + this.displayName + ", userId:" + this.userId + ", token: " + this.token + "}, document.getElementById('call-container'));";
-	private chatCode = " const chatAdapter = await chatComposite.loadChatComposite({ displayName: " + this.displayName + ", threadId: " + this.threadId + ", endpointUrl: " + this.endpointUrl + ", userId: " + this.userId + ", token: " + this.token + "}, document.getElementById('chat-container'));"
 
 	/**
 	 * Empty constructor.
@@ -34,24 +23,10 @@ export class ACSHack implements ComponentFramework.StandardControl<IInputs, IOut
 	 */
 	public init(context: ComponentFramework.Context<IInputs>, notifyOutputChanged: () => void, state: ComponentFramework.Dictionary, container:HTMLDivElement): void
 	{
-		// Add control initialization code
-		this.src = document.createElement("script");
-		this.src.async = false;
-		//this.src.setAttribute("src", "https://github.com/Azure/communication-ui-library/releases/latest/download/callComposite.js");
-		this.src.setAttribute("src", "https://github.com/Azure/communication-ui-library/releases/latest/download/chatComposite.js");
-		this.callContainer = document.createElement("div");
-		//this.callContainer.setAttribute("id", "call-container");
-		this.callContainer.setAttribute("id", "chat-container");
-		this.callContainer.setAttribute("style", "height: 50vh");
-		this.composite = document.createElement("script");
-		this.src.addEventListener('load', () => {
-			this.composite.type = "module";
-			this.composite.defer = true;
-			this.composite.text = this.chatCode;	
-			container.appendChild(this.composite);		
-		})
-		container.appendChild(this.src);
-		container.appendChild(this.callContainer);
+		ReactDOM.render(
+			React.createElement(Composite), container
+		)
+
 	}
 
 
