@@ -1,7 +1,7 @@
 import {IInputs, IOutputs} from "./generated/ManifestTypes";
 import Composite from "./Composite";
 import React = require("react");
-import * as ReactDOM from "react-dom";
+import ReactDOM = require("react-dom");
 
 export class ACSHack implements ComponentFramework.StandardControl<IInputs, IOutputs> {
 
@@ -23,12 +23,23 @@ export class ACSHack implements ComponentFramework.StandardControl<IInputs, IOut
 	 */
 	public init(context: ComponentFramework.Context<IInputs>, notifyOutputChanged: () => void, state: ComponentFramework.Dictionary, container:HTMLDivElement): void
 	{
-		ReactDOM.render(
-			React.createElement(Composite), container
-		)
+		const props = {
+			token: String(context.parameters.token.raw),
+			userId: String(context.parameters.userId.raw),
+			displayName: String(context.parameters.displayName.raw),
+			threadId: String(context.parameters.threadId.raw),
+			endpointURL: String(context.parameters.endpoint.raw)
+		}
+		try{
+			ReactDOM.render(
+				React.createElement(Composite, props), container
+			)
+		}
+		catch(err){
+			console.log(err)
+		}
 
 	}
-
 
 	/**
 	 * Called when any value in the property bag has changed. This includes field values, data-sets, global values such as container height and width, offline status, control metadata values such as label, visible, etc.
@@ -36,8 +47,7 @@ export class ACSHack implements ComponentFramework.StandardControl<IInputs, IOut
 	 */
 	public updateView(context: ComponentFramework.Context<IInputs>): void
 	{
-		// Add code to update control view
-		console.log(context)
+		
 	}
 
 	/**
