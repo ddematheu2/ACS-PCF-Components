@@ -3,7 +3,7 @@ import Composite from "./Composite";
 import React = require("react");
 import ReactDOM = require("react-dom");
 
-export class ACSHack implements ComponentFramework.StandardControl<IInputs, IOutputs> {
+export class ACSCallComposite implements ComponentFramework.StandardControl<IInputs, IOutputs> {
 
 	private _container:HTMLDivElement;
 
@@ -39,8 +39,7 @@ export class ACSHack implements ComponentFramework.StandardControl<IInputs, IOut
 			token: String(context.parameters.token.raw),
 			userId: String(context.parameters.userId.raw),
 			displayName: String(context.parameters.displayName.raw),
-			threadId: String(context.parameters.threadId.raw),
-			endpointURL: String(context.parameters.endpoint.raw),
+			groupId: String(context.parameters.groupId.raw),
 			height: String(context.mode.allocatedHeight)
 		}
 		try{
