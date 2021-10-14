@@ -11,6 +11,7 @@
     <Name>PowerApps</Name>
     <ProjectGuid>67a47ecb-d5bd-4d0a-92de-64994bbf6a15</ProjectGuid>
     <OutputPath>$(MSBuildThisFileDirectory)out\controls</OutputPath>
+    <PcfBuildMode>production</PcfBuildMode>
   </PropertyGroup>
 
   <PropertyGroup>

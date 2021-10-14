@@ -1,18 +1,20 @@
-import {IInputs, IOutputs} from "./generated/ManifestTypes";
-import Composite from "./Composite";
+import {IInputs, IOutputs} from "./generated/ManifestTypes"; 
 import React = require("react");
 import ReactDOM = require("react-dom");
 
-export class ACSCallComposite implements ComponentFramework.StandardControl<IInputs, IOutputs> {
 
-	private _container:HTMLDivElement;
+export class ACSAuthComponent implements ComponentFramework.StandardControl<IInputs, IOutputs> {
+
+	public set = false;
+	public userId: string;
+	public token: string;
 
 	/**
 	 * Empty constructor.
 	 */
 	constructor()
 	{
-
+		//
 	}
 
 	/**
@@ -25,8 +27,15 @@ export class ACSCallComposite implements ComponentFramework.StandardControl<IInp
 	 */
 	public init(context: ComponentFramework.Context<IInputs>, notifyOutputChanged: () => void, state: ComponentFramework.Dictionary, container:HTMLDivElement): void
 	{
-		context.mode.trackContainerResize(true);
-		this._container = container;
+		//
+		fetch(String(context.parameters.azureFunctionURL.raw))
+        .then(response => response.json())
+        .then(data => {
+			this.set = true;
+			this.userId = data.userId.communicationUserId;
+			this.token = data.userToken.token;
+			notifyOutputChanged();
+        });
 	}
 
 	/**
@@ -35,21 +44,7 @@ export class ACSCallComposite implements ComponentFramework.StandardControl<IInp
 	 */
 	public updateView(context: ComponentFramework.Context<IInputs>): void
 	{
-		const props = {
-			token: String(context.parameters.token.raw),
-			userId: String(context.parameters.userId.raw),
-			displayName: String(context.parameters.displayName.raw),
-			groupId: String(context.parameters.groupId.raw),
-			height: String(context.mode.allocatedHeight)
-		}
-		try{
-			ReactDOM.render(
-				React.createElement(Composite, props), this._container
-			)
-		}
-		catch(err){
-			console.log("error: " + err)
-		}
+		//
 	}
 
 	/**
@@ -58,7 +53,8 @@ export class ACSCallComposite implements ComponentFramework.StandardControl<IInp
 	 */
 	public getOutputs(): IOutputs
 	{
-		return {};
+		console.log("get outputs: " + this.token + " /n " + this.userId)
+		return {userId: this.userId, token: this.token};
 	}
 
 	/**

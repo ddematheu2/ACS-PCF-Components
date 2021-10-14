@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <manifest>
-  <control namespace="Azure" constructor="ACSCallComposite" version="0.0.1" display-name-key="ACSCallComposite" description-key="ACSCallComposite description" control-type="standard" >
+  <control namespace="Azure" constructor="ACSAuthComponent" version="0.0.6" display-name-key="ACSAuthComponent" description-key="ACSAuthComponent description" control-type="standard" >
     <!--external-service-usage node declares whether this 3rd party PCF control is using external service or not, if yes, this control will be considered as premium and please also add the external domain it is using.
     If it is not using any external service, please set the enabled="false" and DO NOT add any domain below. The "enabled" will be false by default.
     Example1:
@@ -18,8 +18,8 @@
       -->
     </external-service-usage>
     <!-- property node identifies a specific, configurable piece of data that the control expects from CDS -->
-    <property name="displayName" 
-    display-name-key="displayName" 
+    <property name="azureFunctionURL" 
+    display-name-key="azureFunctionURL" 
     of-type="SingleLine.Text" 
     usage="input" 
     required="true"
@@ -28,23 +28,12 @@
     <property name="userId" 
     display-name-key="userId" 
     of-type="SingleLine.Text" 
-    usage="input" 
-    required="true"
-    default-value="val" />
-    
+    usage="output"  />
+
     <property name="token" 
     display-name-key="token" 
     of-type="SingleLine.Text" 
-    usage="input" 
-    required="true" 
-    default-value="val" />
-
-    <property name="groupId" 
-    display-name-key="groupId" 
-    of-type="SingleLine.Text" 
-    usage="input" 
-    required="true"
-    default-value="val" />
+    usage="output" />
 
     <resources>
       <code path="index.ts" order="1"/>
