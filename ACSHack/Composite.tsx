@@ -21,6 +21,8 @@ export interface CompositeProps {
 
 function Composite(props: CompositeProps): JSX.Element {
   
+  console.log("thread v0.15: " + props.threadId);
+
   //Chat Variables
   const [chatAdapter, setChatAdapter] = useState<ChatAdapter>();
 
@@ -36,7 +38,7 @@ function Composite(props: CompositeProps): JSX.Element {
 
   useEffect(() => {
     const createAdapter = async (): Promise<void> => {
-      console.log("threadId: " + props.threadId);
+      console.log("threadId Composite v0.16: " + props.threadId);
       setChatAdapter(
         await createAzureCommunicationChatAdapter({
           endpointUrl: props.endpointURL,

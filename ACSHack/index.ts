@@ -3,9 +3,10 @@ import Composite from "./Composite";
 import React = require("react");
 import ReactDOM = require("react-dom");
 
-export class ACSHack implements ComponentFramework.StandardControl<IInputs, IOutputs> {
+export class ACSChatComposite implements ComponentFramework.StandardControl<IInputs, IOutputs> {
 
 	private _container:HTMLDivElement;
+	private first:boolean;
 
 	/**
 	 * Empty constructor.
@@ -27,6 +28,7 @@ export class ACSHack implements ComponentFramework.StandardControl<IInputs, IOut
 	{
 		context.mode.trackContainerResize(true);
 		this._container = container;
+		console.log("v0.16");
 	}
 
 	/**
@@ -35,21 +37,25 @@ export class ACSHack implements ComponentFramework.StandardControl<IInputs, IOut
 	 */
 	public updateView(context: ComponentFramework.Context<IInputs>): void
 	{
-		const props = {
-			token: String(context.parameters.token.raw),
-			userId: String(context.parameters.userId.raw),
-			displayName: String(context.parameters.displayName.raw),
-			threadId: String(context.parameters.threadId.raw),
-			endpointURL: String(context.parameters.endpoint.raw),
-			height: String(context.mode.allocatedHeight)
-		}
-		try{
-			ReactDOM.render(
-				React.createElement(Composite, props), this._container
-			)
-		}
-		catch(err){
-			console.log("error: " + err)
+		console.log("update v0.16: " + context.parameters.threadId.raw);
+		if(context.parameters.threadId.raw != "" && !this.first){
+			this.first = true;
+			const props = {
+				token: String(context.parameters.token.raw),
+				userId: String(context.parameters.userId.raw),
+				displayName: String(context.parameters.displayName.raw),
+				threadId: String(context.parameters.threadId.raw),
+				endpointURL: String(context.parameters.endpoint.raw),
+				height: String(context.mode.allocatedHeight)
+			}
+			try{
+				ReactDOM.render(
+					React.createElement(Composite, props), this._container
+				)
+			}
+			catch(err){
+				console.log("error: " + err)
+			}
 		}
 	}
 
