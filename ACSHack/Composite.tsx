@@ -38,11 +38,10 @@ function Composite(props: CompositeProps): JSX.Element {
 
   useEffect(() => {
     const createAdapter = async (): Promise<void> => {
-      console.log("threadId Composite v0.16: " + props.threadId);
       setChatAdapter(
         await createAzureCommunicationChatAdapter({
-          endpointUrl: props.endpointURL,
-          userId: { kind: 'communicationUser', communicationUserId: props.userId },
+          endpoint: props.endpointURL,
+          userId: { communicationUserId: props.userId },
           displayName: props.displayName,
           credential: new AzureCommunicationTokenCredential(props.token),
           threadId: props.threadId
@@ -66,7 +65,6 @@ function Composite(props: CompositeProps): JSX.Element {
         <ChatComposite 
         adapter={chatAdapter} 
         options={{
-          participantPane: false,
           topic: false
         }} />
       </div>
