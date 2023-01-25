@@ -1,12 +1,5 @@
 import { AzureCommunicationTokenCredential } from '@azure/communication-common';
-import {
-  CallComposite,
-  CallAdapter,
-  createAzureCommunicationCallAdapter,
-  ChatComposite,
-  ChatAdapter,
-  createAzureCommunicationChatAdapter
-} from '@azure/communication-react';
+import { CallAdapter, CallComposite, createAzureCommunicationCallAdapter } from '@azure/communication-react/dist/dist-esm/react-composites/src/composites/CallComposite';
 import { useEffect, useMemo, useState } from 'react';
 import React = require('react');
 
@@ -14,17 +7,16 @@ export interface CompositeProps {
   token: string;
   userId: string;
   displayName: string;
-  threadId: string;
-  endpointURL: string;
+  groupId: string;
   height: string;
 }
 
 function Composite(props: CompositeProps): JSX.Element {
   
-  console.log("thread v0.15: " + props.threadId);
+  console.log("thread v0.15: " + props.groupId);
 
   //Chat Variables
-  const [chatAdapter, setChatAdapter] = useState<ChatAdapter>();
+  const [callAdapter, setCallAdapter] = useState<CallAdapter>();
 
   // We can't even initialize the Chat and Call adapters without a well-formed token.
   const credential = useMemo(() => {
@@ -38,35 +30,31 @@ function Composite(props: CompositeProps): JSX.Element {
 
   useEffect(() => {
     const createAdapter = async (): Promise<void> => {
-      setChatAdapter(
-        await createAzureCommunicationChatAdapter({
-          endpoint: props.endpointURL,
+      setCallAdapter(
+        await createAzureCommunicationCallAdapter({
           userId: { communicationUserId: props.userId },
           displayName: props.displayName,
           credential: new AzureCommunicationTokenCredential(props.token),
-          threadId: props.threadId
+          locator: {groupId: props.groupId}
         })
       );
     };
-    if( credential != undefined && props.threadId != "") createAdapter();
+    if( credential != undefined && props.groupId != "") createAdapter();
   }, [credential]);
 
   
   if (credential === undefined) {
     return <h3>Failed to construct credential. Provided token is malformed.</h3>;
   }
-  if (props.threadId === "") {
+  if (props.groupId === "") {
     return <h3>Provide a valid thread id</h3>;
   }
-  if (!!chatAdapter) {
+  if (!!callAdapter) {
     return (
       <>
       <div style={{height: props.height + 'px'}}>
-        <ChatComposite 
-        adapter={chatAdapter} 
-        options={{
-          topic: false
-        }} />
+        <CallComposite 
+        adapter={callAdapter}  />
       </div>
       </>
     );
