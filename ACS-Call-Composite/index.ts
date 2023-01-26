@@ -3,7 +3,7 @@ import Composite from './Composite'
 import React = require('react');
 import ReactDOM = require('react-dom');
 
-export class ACSChatComposite implements ComponentFramework.StandardControl<IInputs, IOutputs> {
+export class ACSCallComposite implements ComponentFramework.StandardControl<IInputs, IOutputs> {
 	private _container:HTMLDivElement;
 	private first:boolean;
 
@@ -33,16 +33,15 @@ export class ACSChatComposite implements ComponentFramework.StandardControl<IInp
 	 * @param context The entire property bag available to control via Context Object; It contains values as set up by the customizer mapped to names defined in the manifest, as well as utility functions
 	 */
 	public updateView (context: ComponentFramework.Context<IInputs>): void {
-	  console.log('update v0.16: ' + context.parameters.threadId.raw)
-	  if (context.parameters.threadId.raw != '' && !this.first) {
+	  console.log('update v0.16: ' + context.parameters.groupId.raw)
+	  if (context.parameters.groupId.raw != '' && !this.first) {
 	    this.first = true
 	    const props = {
-	      token: String(context.parameters.token.raw),
-	      userId: String(context.parameters.userId.raw),
-	      displayName: String(context.parameters.displayName.raw),
-	      threadId: String(context.parameters.threadId.raw),
-	      endpointURL: String(context.parameters.endpoint.raw),
-	      height: String(context.mode.allocatedHeight) 
+			token: String(context.parameters.token.raw),
+			userId: String(context.parameters.userId.raw),
+			displayName: String(context.parameters.displayName.raw),
+			groupId: String(context.parameters.groupId.raw),
+			height: String(context.mode.allocatedHeight), 
 	    }
 	    try {
 	      ReactDOM.render(

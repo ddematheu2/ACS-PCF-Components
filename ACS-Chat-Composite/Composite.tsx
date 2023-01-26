@@ -17,8 +17,6 @@ export interface CompositeProps {
 }
 
 function Composite(props: CompositeProps): JSX.Element {
-  
-  console.log("thread v0.15: " + props.threadId);
 
   //Chat Variables
   const [chatAdapter, setChatAdapter] = useState<ChatAdapter>();
