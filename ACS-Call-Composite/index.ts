@@ -3,7 +3,7 @@ import Composite from './Composite'
 import React = require('react');
 import ReactDOM = require('react-dom');
 
-export class ACSCallComposite implements ComponentFramework.StandardControl<IInputs, IOutputs> {
+export class ACSCallUIComposite implements ComponentFramework.StandardControl<IInputs, IOutputs> {
 	private _container:HTMLDivElement;
 	private first:boolean;
 

@@ -30,14 +30,17 @@ function Composite(props: CompositeProps): JSX.Element {
 
   useEffect(() => {
     const createAdapter = async (): Promise<void> => {
-      setCallAdapter(
+      try{setCallAdapter(
         await createAzureCommunicationCallAdapter({
           userId: { communicationUserId: props.userId },
           displayName: props.displayName,
           credential: new AzureCommunicationTokenCredential(props.token),
           locator: {groupId: props.groupId}
         })
-      );
+      )} catch {
+        console.error('Failed to create call adapter');
+        setCallAdapter(undefined);
+      };
     };
     if( credential != undefined && props.groupId != "") createAdapter();
   }, [credential]);
@@ -45,6 +48,9 @@ function Composite(props: CompositeProps): JSX.Element {
   
   if (credential === undefined) {
     return <h3>Failed to construct credential. Provided token is malformed.</h3>;
+  }
+  if (callAdapter === undefined) {
+    return <h3>Failed to construct call adapter.</h3>;
   }
   if (props.groupId === "") {
     return <h3>Provide a valid thread id</h3>;

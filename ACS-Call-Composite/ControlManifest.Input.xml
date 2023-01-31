@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <manifest>
-  <control namespace="Azure" constructor="ACSCallComposite" version="0.0.16" display-name-key="ACSCallComposite" description-key="ACSChatComposite description" control-type="standard" >
+  <control namespace="Azure" constructor="ACSCallUIComposite" version="0.0.1" display-name-key="ACSCallUIComposite" description-key="ACSChatComposite description" control-type="standard" >
     <!--external-service-usage node declares whether this 3rd party PCF control is using external service or not, if yes, this control will be considered as premium and please also add the external domain it is using.
     If it is not using any external service, please set the enabled="false" and DO NOT add any domain below. The "enabled" will be false by default.
     Example1:
